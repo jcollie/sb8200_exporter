@@ -1,12 +1,14 @@
+"""Main program."""
+
 import argparse
 import http.server
 
 import prometheus_client
-
 import sb8200_exporter
 
 
 def main():
+    """Main program."""
     parser = argparse.ArgumentParser("Eagle Parser")
 
     parser.add_argument("--port", type=int, default=9195)

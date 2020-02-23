@@ -1,12 +1,17 @@
+"""Collector."""
+
 import re
 import urllib.parse
 
 import bs4
 import requests
+
 import prometheus_client
 import prometheus_client.core
 
+
 class Collector(object):
+    """Colliector."""
 
     SCHEME = "http"
     PATH = "/"
@@ -16,16 +21,16 @@ class Collector(object):
     _UPSTREAM_HEADER_DISCRETE = set(("frequency", "symbol_rate"))
     _UPSTREAM_HEADER_COUNTER = set(())
 
-    def __init__(self, address):
+    def __init__(self, address):  # noqa: D107
         self.address = address
         self._prefix = "sb8200_"
 
-    def headerify(self, text):
+    def headerify(self, text):  # noqa: D102
         text = text.strip().lower()
         text = re.sub(r"[^a-z0-9]", "_", text)
         return text
 
-    def parse_table(self, table):
+    def parse_table(self, table):  # noqa: D102
         result = []
         headers = []
         for tr in table.find_all("tr"):
@@ -42,8 +47,7 @@ class Collector(object):
                 result.append(row)
         return result
 
-    def make_metric(self, _is_counter, _name, _documentation, _value,
-                    **_labels):
+    def make_metric(self, _is_counter, _name, _documentation, _value, **_labels):  # noqa: D102
         if _is_counter:
             cls = prometheus_client.core.CounterMetricFamily
         else:
@@ -54,7 +58,7 @@ class Collector(object):
         metric.add_metric([str(_labels[k]) for k in label_names], _value)
         return metric
 
-    def make_table_metrics(self, rows, prefix, id, discrete, counter):
+    def make_table_metrics(self, rows, prefix, id, discrete, counter):  # noqa: D102
         metrics = []
         for row in rows:
             state = {}
@@ -74,7 +78,7 @@ class Collector(object):
                     False, prefix + "state", None, 1, **state))
         return metrics
 
-    def collect(self):
+    def collect(self):  # noqa: D102
         metrics = []
 
         u = urllib.parse.urlunparse((

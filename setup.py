@@ -1,5 +1,6 @@
-import setuptools
+"""Setup."""
 
+import setuptools
 
 setuptools.setup(
     name="sb8200_exporter",
