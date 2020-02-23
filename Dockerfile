@@ -1,10 +1,10 @@
 FROM python:3-slim
 
-COPY . /src
+COPY setup.py /src/
+COPY sb8200_exporter /src/sb8200_exporter/
 
-RUN pip install --upgrade /src && \
-    cp /usr/local/bin/sb8200_exporter /sb8200_exporter
+RUN pip install --upgrade /src
 
 EXPOSE 9195
 
-ENTRYPOINT ["/sb8200_exporter"]
+CMD ["/usr/local/bin/sb8200_exporter"]

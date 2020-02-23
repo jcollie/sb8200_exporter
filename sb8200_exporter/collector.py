@@ -6,7 +6,6 @@ import requests
 import prometheus_client
 import prometheus_client.core
 
-
 class Collector(object):
 
     SCHEME = "http"
